@@ -13,21 +13,53 @@ import {
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { useDrawerContext } from '../../contexts';
 
 interface ISidebarProps {
   children: React.ReactNode;
 }
 
+interface IListItemLinkProps {
+  to: string;
+  icon: string;
+  label: string;
+  onClick?: () => void;
+}
+
+const ListItemLink: React.FC<IListItemLinkProps> = ({ to, label, icon, onClick }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(to);
+    onClick?.();
+  };
+
+  const resolvedPath = useResolvedPath(to);
+  const match = useMatch({ path: resolvedPath.pathname, end: false });
+
+  return (
+    <ListItemButton selected={!!match} onClick={handleClick}>
+      <ListItemIcon>
+        <Icon>{icon}</Icon>
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </ListItemButton>
+  );
+};
+
 export const Sidebar = ({ children }: ISidebarProps) => {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+  const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
   return (
     <>
-      <Drawer open={isDrawerOpen} variant={smDown ? 'temporary' : 'permanent'} onClose={toggleDrawerOpen}>
+      <Drawer
+        open={isDrawerOpen}
+        variant={smDown ? 'temporary' : 'permanent'}
+        onClose={toggleDrawerOpen}>
         <Box
           width={theme.spacing(28)}
           height="100%"
@@ -44,17 +76,18 @@ export const Sidebar = ({ children }: ISidebarProps) => {
               src="https://avatars.githubusercontent.com/u/100538460?v=4"
             />
           </Box>
-
           <Divider />
-
           <Box flex={1}>
             <List component="nav">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon>home</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Página inicial" />
-              </ListItemButton>
+              {drawerOptions.map(drawerOption => (
+                <ListItemLink
+                  label={drawerOption.label}
+                  icon={drawerOption.icon}
+                  to={drawerOption.path}
+                  key={drawerOption.path}
+                  onClick={smDown ? toggleDrawerOpen : undefined}
+                />
+              ))}
             </List>
           </Box>
         </Box>
