@@ -1,6 +1,36 @@
 import { Box, Button, Divider, Icon, Paper, useTheme } from '@mui/material';
 
-export const ToolbarDetails = () => {
+interface IToolbarDetailsProps {
+  textNewButton?: string;
+
+  showNewButton?: boolean;
+  showBackButton?: boolean;
+  showDeleteButton?: boolean;
+  showSaveButton?: boolean;
+  showSaveAndBackButton?: boolean;
+
+  handleClickNewButton?: () => void;
+  handleClickBackButton?: () => void;
+  handleClickDeleteButton?: () => void;
+  handleClickSaveButton?: () => void;
+  handleClickSaveAndBackButton?: () => void;
+}
+
+export const ToolbarDetails = ({
+  textNewButton = 'Novo',
+
+  showNewButton = true,
+  showBackButton = true,
+  showDeleteButton = true,
+  showSaveButton = true,
+  showSaveAndBackButton = false,
+
+  handleClickNewButton,
+  handleClickBackButton,
+  handleClickDeleteButton,
+  handleClickSaveButton,
+  handleClickSaveAndBackButton,
+}: IToolbarDetailsProps) => {
   const theme = useTheme();
 
   return (
@@ -14,54 +44,67 @@ export const ToolbarDetails = () => {
       gap={1}
       alignItems={'center'}
     >
+      {showSaveButton && (
+        <Button
+          color="primary"
+          disableElevation
+          variant="contained"
+          onClick={handleClickSaveButton}
+          startIcon={<Icon>save</Icon>}
+        >
+          Salvar
+        </Button>
+      )}
 
-      <Button
-        color="primary"
-        disableElevation
-        variant="contained"
-        startIcon={<Icon>save</Icon>}
-      >
-        Salvar
-      </Button>
+      {showSaveAndBackButton && (
+        <Button
+          color="primary"
+          disableElevation
+          variant="outlined"
+          onClick={handleClickSaveAndBackButton}
+          startIcon={<Icon>save</Icon>}
+        >
+          Salvar e voltar
+        </Button>
+      )}
 
-      <Button
-        color="primary"
-        disableElevation
-        variant="outlined"
-        startIcon={<Icon>save</Icon>}
-      >
-        Salvar e voltar
-      </Button>
+      {showDeleteButton && (
+        <Button
+          color="primary"
+          disableElevation
+          variant="outlined"
+          onClick={handleClickDeleteButton}
+          startIcon={<Icon>delete</Icon>}
+        >
+          Apagar
+        </Button>
+      )}
 
-      <Button
-        color="primary"
-        disableElevation
-        variant="outlined"
-        startIcon={<Icon>delete</Icon>}
-      >
-        Apagar
-      </Button>
+      {showNewButton && (
+        <Button
+          color="primary"
+          disableElevation
+          variant="outlined"
+          onClick={handleClickNewButton}
+          startIcon={<Icon>add</Icon>}
+        >
+          {textNewButton}
+        </Button>
+      )}
 
-      <Button
-        color="primary"
-        disableElevation
-        variant="outlined"
-        startIcon={<Icon>add</Icon>}
-      >
-        Novo
-      </Button>
+      <Divider variant="middle" orientation="vertical" />
 
-      <Divider variant='middle' orientation='vertical' />
-
-      <Button
-        color="primary"
-        disableElevation
-        variant="outlined"
-        startIcon={<Icon>arrow_back</Icon>}
-      >
-        Voltar
-      </Button>
-
+      {showBackButton && (
+        <Button
+          color="primary"
+          disableElevation
+          variant="outlined"
+          onClick={handleClickBackButton}
+          startIcon={<Icon>arrow_back</Icon>}
+        >
+          Voltar
+        </Button>
+      )}
     </Box>
   );
 };
