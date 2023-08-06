@@ -1,10 +1,11 @@
-import { Toolbar } from '../../shared/components';
+import { Toolbar, ToolbarDetails } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
 
 export const Dashboard = () => {
   return (
-    <LayoutBaseDePagina title="Página inicial" toolbar={<Toolbar showSearchInput textNewButton='Nova' />}>
-
-    </LayoutBaseDePagina>
+    <LayoutBaseDePagina
+      title="Página inicial"
+      toolbar={<ToolbarDetails />}
+    ></LayoutBaseDePagina>
   );
 };
