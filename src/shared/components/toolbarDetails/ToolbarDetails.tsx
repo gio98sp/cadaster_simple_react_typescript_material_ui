@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Icon, Paper, useTheme } from '@mui/material';
+import { Box, Button, Divider, Icon, Paper, Skeleton, useTheme } from '@mui/material';
 
 interface IToolbarDetailsProps {
   textNewButton?: string;
@@ -8,6 +8,12 @@ interface IToolbarDetailsProps {
   showDeleteButton?: boolean;
   showSaveButton?: boolean;
   showSaveAndBackButton?: boolean;
+
+  showNewButtonLoading?: boolean;
+  showBackButtonLoading?: boolean;
+  showDeleteButtonLoading?: boolean;
+  showSaveButtonLoading?: boolean;
+  showSaveAndBackButtonLoading?: boolean;
 
   handleClickNewButton?: () => void;
   handleClickBackButton?: () => void;
@@ -24,6 +30,12 @@ export const ToolbarDetails = ({
   showDeleteButton = true,
   showSaveButton = true,
   showSaveAndBackButton = false,
+
+  showNewButtonLoading = false,
+  showBackButtonLoading = false,
+  showDeleteButtonLoading = false,
+  showSaveButtonLoading = false,
+  showSaveAndBackButtonLoading = false,
 
   handleClickNewButton,
   handleClickBackButton,
@@ -44,7 +56,7 @@ export const ToolbarDetails = ({
       gap={1}
       alignItems={'center'}
     >
-      {showSaveButton && (
+      {(showSaveButton && !showSaveButtonLoading) && (
         <Button
           color="primary"
           disableElevation
@@ -56,7 +68,9 @@ export const ToolbarDetails = ({
         </Button>
       )}
 
-      {showSaveAndBackButton && (
+      {showSaveButtonLoading && <Skeleton width={110} height={60} />}
+
+      {(showSaveAndBackButton && !showSaveAndBackButtonLoading) && (
         <Button
           color="primary"
           disableElevation
@@ -68,7 +82,9 @@ export const ToolbarDetails = ({
         </Button>
       )}
 
-      {showDeleteButton && (
+      {showSaveAndBackButtonLoading && <Skeleton width={180} height={60} />}
+
+      {(showDeleteButton && !showDeleteButtonLoading) && (
         <Button
           color="primary"
           disableElevation
@@ -80,7 +96,9 @@ export const ToolbarDetails = ({
         </Button>
       )}
 
-      {showNewButton && (
+      {showDeleteButtonLoading && <Skeleton width={110} height={60} />}
+
+      {(showNewButton && !showNewButtonLoading) && (
         <Button
           color="primary"
           disableElevation
@@ -92,9 +110,11 @@ export const ToolbarDetails = ({
         </Button>
       )}
 
+      {showNewButtonLoading && <Skeleton width={110} height={60} />}
+
       <Divider variant="middle" orientation="vertical" />
 
-      {showBackButton && (
+      {(showBackButton && !showBackButtonLoading) && (
         <Button
           color="primary"
           disableElevation
@@ -105,6 +125,8 @@ export const ToolbarDetails = ({
           Voltar
         </Button>
       )}
+
+      {showBackButtonLoading && <Skeleton width={110} height={60} />}
     </Box>
   );
 };
