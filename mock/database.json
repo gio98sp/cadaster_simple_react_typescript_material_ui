@@ -5,6 +5,30 @@
       "email": "gio@gmail.com",
       "cidadeId": 1,
       "nomeCompleto": "Giovane Santos"
+    },
+    {
+      "id": 2,
+      "email": "joao@gmail.com",
+      "cidadeId": 1,
+      "nomeCompleto": "João Oliveira"
+    },
+    {
+      "id": 3,
+      "email": "maria@gmail.com",
+      "cidadeId": 1,
+      "nomeCompleto": "Maria Silva"
+    },
+    {
+      "id": 4,
+      "email": "pedro@gmail.com",
+      "cidadeId": 1,
+      "nomeCompleto": "Pedro Almeida"
+    },
+    {
+      "id": 5,
+      "email": "beatriz@gmail.com",
+      "cidadeId": 1,
+      "nomeCompleto": "Beatriz Pereira"
     }
   ]
 }
