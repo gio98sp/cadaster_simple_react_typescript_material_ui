@@ -1,9 +1,11 @@
 import {
+  LinearProgress,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
 } from '@mui/material';
@@ -11,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { Toolbar } from '../../shared/components';
+import { Environment } from '../../shared/environment';
 import { useDebounce } from '../../shared/hooks';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
 import {
@@ -68,6 +71,7 @@ export const ListOfPeople = () => {
               <TableCell>Email</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
@@ -77,6 +81,20 @@ export const ListOfPeople = () => {
               </TableRow>
             ))}
           </TableBody>
+
+          {totalCount === 0 && !isLoading && (
+            <caption>{Environment.LISTAGEM_VAZIA}</caption>
+          )}
+
+          <TableFooter>
+            {isLoading && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <LinearProgress />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableFooter>
         </Table>
       </TableContainer>
     </LayoutBaseDePagina>
