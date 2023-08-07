@@ -1,4 +1,14 @@
-import { Box, Button, Divider, Icon, Paper, Skeleton, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  Paper,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 
 interface IToolbarDetailsProps {
   textNewButton?: string;
@@ -45,6 +55,9 @@ export const ToolbarDetails = ({
 }: IToolbarDetailsProps) => {
   const theme = useTheme();
 
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const mdDown = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Box
       height={theme.spacing(5)}
@@ -56,7 +69,7 @@ export const ToolbarDetails = ({
       gap={1}
       alignItems={'center'}
     >
-      {(showSaveButton && !showSaveButtonLoading) && (
+      {showSaveButton && !showSaveButtonLoading && (
         <Button
           color="primary"
           disableElevation
@@ -64,13 +77,20 @@ export const ToolbarDetails = ({
           onClick={handleClickSaveButton}
           startIcon={<Icon>save</Icon>}
         >
-          Salvar
+          <Typography
+            variant="button"
+            noWrap
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}
+          >
+            Salvar
+          </Typography>
         </Button>
       )}
 
       {showSaveButtonLoading && <Skeleton width={110} height={60} />}
 
-      {(showSaveAndBackButton && !showSaveAndBackButtonLoading) && (
+      {showSaveAndBackButton && !showSaveAndBackButtonLoading && !mdDown && (
         <Button
           color="primary"
           disableElevation
@@ -78,13 +98,20 @@ export const ToolbarDetails = ({
           onClick={handleClickSaveAndBackButton}
           startIcon={<Icon>save</Icon>}
         >
-          Salvar e voltar
+          <Typography
+            variant="button"
+            noWrap
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}
+          >
+            Salvar e voltar
+          </Typography>
         </Button>
       )}
 
-      {showSaveAndBackButtonLoading && <Skeleton width={180} height={60} />}
+      {showSaveAndBackButtonLoading && !mdDown && <Skeleton width={180} height={60} />}
 
-      {(showDeleteButton && !showDeleteButtonLoading) && (
+      {showDeleteButton && !showDeleteButtonLoading && (
         <Button
           color="primary"
           disableElevation
@@ -92,13 +119,20 @@ export const ToolbarDetails = ({
           onClick={handleClickDeleteButton}
           startIcon={<Icon>delete</Icon>}
         >
-          Apagar
+          <Typography
+            variant="button"
+            noWrap
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}
+          >
+            Apagar
+          </Typography>
         </Button>
       )}
 
       {showDeleteButtonLoading && <Skeleton width={110} height={60} />}
 
-      {(showNewButton && !showNewButtonLoading) && (
+      {showNewButton && !showNewButtonLoading && !smDown && (
         <Button
           color="primary"
           disableElevation
@@ -106,15 +140,26 @@ export const ToolbarDetails = ({
           onClick={handleClickNewButton}
           startIcon={<Icon>add</Icon>}
         >
-          {textNewButton}
+          <Typography
+            variant="button"
+            noWrap
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}
+          >
+            {textNewButton}
+          </Typography>
         </Button>
       )}
 
-      {showNewButtonLoading && <Skeleton width={110} height={60} />}
+      {showNewButtonLoading && !smDown && <Skeleton width={110} height={60} />}
 
-      <Divider variant="middle" orientation="vertical" />
+      {showBackButton &&
+        (showSaveButton ||
+          showSaveAndBackButton ||
+          showDeleteButton ||
+          showNewButton) && <Divider variant="middle" orientation="vertical" />}
 
-      {(showBackButton && !showBackButtonLoading) && (
+      {showBackButton && !showBackButtonLoading && (
         <Button
           color="primary"
           disableElevation
@@ -122,7 +167,14 @@ export const ToolbarDetails = ({
           onClick={handleClickBackButton}
           startIcon={<Icon>arrow_back</Icon>}
         >
-          Voltar
+          <Typography
+            variant="button"
+            noWrap
+            textOverflow={'ellipsis'}
+            overflow={'hidden'}
+          >
+            Voltar
+          </Typography>
         </Button>
       )}
 
