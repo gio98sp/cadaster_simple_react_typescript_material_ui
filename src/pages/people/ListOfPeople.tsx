@@ -77,6 +77,7 @@ export const ListOfPeople = () => {
           textNewButton="Nova"
           showSearchInput
           searchText={busca}
+          clickNewButton={() => navigate('/pessoas/detalhe/nova')}
           changeSearchText={(text) =>
             setSearchParams({ busca: text, page: '1' }, { replace: true })
           }
