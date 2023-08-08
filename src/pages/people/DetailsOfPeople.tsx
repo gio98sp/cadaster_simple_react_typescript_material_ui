@@ -1,16 +1,25 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { ToolbarDetails } from '../../shared/components';
+import { VTextField } from '../../shared/forms';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
 import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
-import { VTextField } from '../../shared/forms';
+
+interface IFormData {
+  email: string;
+  cidadeId: number;
+  nomeCompleto: string;
+}
 
 export const DetailsOfPeople = () => {
   const { id = 'nova' } = useParams<'id'>();
 
   const navigate = useNavigate();
+  
+  const formRef = useRef<FormHandles>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
@@ -25,14 +34,33 @@ export const DetailsOfPeople = () => {
           navigate('/pessoas');
         } else {
           setName(result.nomeCompleto);
-          console.log(result);
+          formRef.current?.setData(result);
         }
       });
     }
   }, [id]);
 
-  const handleSave = () => {
-    console.log('Save');
+  const handleSave = (data: IFormData) => {
+    setIsLoading(true);
+    if (id === 'nova') {
+      PessoasService.create(data).then((result) => {
+        setIsLoading(false);
+        if (result instanceof Error) {
+          alert(result.message);
+        } else {
+          navigate(`/pessoas/detalhe/${result}`);
+        }
+      });
+    } else {
+      PessoasService.updateById(Number(id), { id: Number(id), ...data }).then(
+        (result) => {
+          setIsLoading(false);
+          if (result instanceof Error) {
+            alert(result.message);
+          }
+        }
+      );
+    }
   };
 
   const handleDelete = (id: number) => {
@@ -56,20 +84,19 @@ export const DetailsOfPeople = () => {
           showSaveAndBackButton
           showDeleteButton={id !== 'nova'}
           showNewButton={id !== 'nova'}
-          handleClickSaveButton={handleSave}
-          handleClickSaveAndBackButton={handleSave}
+          handleClickSaveButton={() => formRef.current?.submitForm()}
+          handleClickSaveAndBackButton={() => formRef.current?.submitForm()}
           handleClickDeleteButton={() => handleDelete(Number(id))}
           handleClickNewButton={() => navigate('/pessoas/detalhe/nova')}
           handleClickBackButton={() => navigate('/pessoas')}
         />
       }
     >
-
-      <Form onSubmit={(data) => console.log(data)}>
-        <VTextField name='nomeCompleto' />
-        <button type="submit">Enviar</button>
+      <Form ref={formRef} onSubmit={handleSave}>
+        <VTextField placeholder="Nome completo" name="nomeCompleto" />
+        <VTextField placeholder="Email" name="email" />
+        <VTextField placeholder="Cidade Id" name="cidadeId" />
       </Form>
-
     </LayoutBaseDePagina>
   );
 };
