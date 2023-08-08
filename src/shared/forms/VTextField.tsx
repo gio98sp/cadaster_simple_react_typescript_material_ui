@@ -24,11 +24,11 @@ export const VTextField = ({ name, ...rest }: TVTextFieldProps) => {
     <TextField
       {...rest}
       value={value}
-      onChange={(e) => setValue(e.target.value)}
       error={!!error}
       helperText={error}
       defaultValue={defaultValue}
-      onKeyDown={() => (error ? clearError() : undefined)}
+      onChange={(e) => { setValue(e.target.value); rest.onChange?.(e); }}
+      onKeyDown={(e) => { error ?? clearError(); rest.onKeyDown?.(e) }}
     />
   );
 };
