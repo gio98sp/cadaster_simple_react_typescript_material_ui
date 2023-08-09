@@ -20,16 +20,16 @@ import { Environment } from '../../shared/environment';
 import { useDebounce } from '../../shared/hooks';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
 import {
-  IListagemPessoa,
-  PessoasService,
-} from '../../shared/services/api/pessoas/PessoasService';
+  IListagemCidade,
+  CitiesService,
+} from '../../shared/services/api/cities/CitiesService';
 
-export const ListOfPeople = () => {
+export const ListOfCities = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState<IListagemPessoa[]>([]);
+  const [rows, setRows] = useState<IListagemCidade[]>([]);
   const [totalCount, settotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,7 +44,7 @@ export const ListOfPeople = () => {
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
-      PessoasService.getAll(page, busca).then((result) => {
+      CitiesService.getAll(page, busca).then((result) => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
@@ -59,7 +59,7 @@ export const ListOfPeople = () => {
 
   const handleDelete = (id: number) => {
     if (confirm('Deseja realmente apagar?')) {
-      PessoasService.deleteById(id).then((result) => {
+      CitiesService.deleteById(id).then((result) => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
@@ -71,13 +71,13 @@ export const ListOfPeople = () => {
 
   return (
     <LayoutBaseDePagina
-      title="Listagem de Pessoas"
+      title="Listagem de Cidades"
       toolbar={
         <Toolbar
           textNewButton="Nova"
           showSearchInput
           searchText={busca}
-          clickNewButton={() => navigate('/pessoas/detalhe/nova')}
+          clickNewButton={() => navigate('/cidades/detalhe/nova')}
           changeSearchText={(text) =>
             setSearchParams({ busca: text, page: '1' }, { replace: true })
           }
@@ -89,8 +89,7 @@ export const ListOfPeople = () => {
           <TableHead>
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
-              <TableCell>Nome Completo</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>Nome</TableCell>
             </TableRow>
           </TableHead>
 
@@ -101,12 +100,11 @@ export const ListOfPeople = () => {
                   <IconButton onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton onClick={() => navigate(`/pessoas/detalhe/${row.id}`)}>
+                  <IconButton onClick={() => navigate(`/cidades/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
-                <TableCell>{row.nomeCompleto}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.nome}</TableCell>
               </TableRow>
             ))}
           </TableBody>

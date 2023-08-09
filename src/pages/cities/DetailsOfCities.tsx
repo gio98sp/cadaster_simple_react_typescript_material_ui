@@ -6,22 +6,17 @@ import * as yup from 'yup';
 import { ToolbarDetails } from '../../shared/components';
 import { IVFormErrors, VForm, VTextField, useVForm } from '../../shared/forms';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
-import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
-import { AutoCompleteCity } from './components/AutoCompleteCity';
+import { CitiesService } from '../../shared/services/api/cities/CitiesService';
 
 interface IFormData {
-  email: string;
-  cidadeId: number;
-  nomeCompleto: string;
+  nome: string;
 }
 
 const formValidationSchema: yup.ObjectSchema<IFormData> = yup.object().shape({
-  nomeCompleto: yup.string().required().min(3),
-  email: yup.string().required().email(),
-  cidadeId: yup.number().required().integer().positive(),
+  nome: yup.string().required().min(3),
 });
 
-export const DetailsOfPeople = () => {
+export const DetailsOfCities = () => {
   const { id = 'nova' } = useParams<'id'>();
 
   const navigate = useNavigate();
@@ -34,49 +29,43 @@ export const DetailsOfPeople = () => {
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
-      PessoasService.getById(Number(id)).then((result) => {
+      CitiesService.getById(Number(id)).then((result) => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
-          navigate('/pessoas');
+          navigate('/cidades');
         } else {
-          setName(result.nomeCompleto);
+          setName(result.nome);
           formRef.current?.setData(result);
         }
       });
     } else {
       formRef.current?.setData({
-        nomeCompleto: '',
-        email: '',
-        cidadeId: undefined,
+        nome: '',
       });
     }
   }, [id]);
 
   const handleSave = (data: IFormData) => {
-
-    console.log(data)
     formValidationSchema
       .validate(data, { abortEarly: false })
       .then((validatedData) => {
         setIsLoading(true);
-
         if (id === 'nova') {
-          PessoasService.create(validatedData).then((result) => {
+          CitiesService.create(validatedData).then((result) => {
             setIsLoading(false);
             if (result instanceof Error) {
               alert(result.message);
             } else {
               if (isSaveAndClose()) {
-                navigate('./pessoas');
+                navigate('./cidades');
               } else {
-                navigate(`/pessoas/detalhe/${result}`);
+                navigate(`/cidades/detalhe/${result}`);
               }
             }
           });
-          
         } else {
-          PessoasService.updateById(Number(id), {
+          CitiesService.updateById(Number(id), {
             id: Number(id),
             ...validatedData,
           }).then((result) => {
@@ -85,7 +74,7 @@ export const DetailsOfPeople = () => {
               alert(result.message);
             } else {
               if (isSaveAndClose()) {
-                navigate('./pessoas');
+                navigate('./cidades');
               }
             }
           });
@@ -105,11 +94,11 @@ export const DetailsOfPeople = () => {
 
   const handleDelete = (id: number) => {
     if (confirm('Deseja realmente apagar?')) {
-      PessoasService.deleteById(id).then((result) => {
+      CitiesService.deleteById(id).then((result) => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
-          navigate('/pessoas');
+          navigate('/cidades');
         }
       });
     }
@@ -117,7 +106,7 @@ export const DetailsOfPeople = () => {
 
   return (
     <LayoutBaseDePagina
-      title={id === 'nova' ? 'Nova Pessoa' : name}
+      title={id === 'nova' ? 'Nova Cidade' : name}
       toolbar={
         <ToolbarDetails
           textNewButton="Nova"
@@ -127,8 +116,8 @@ export const DetailsOfPeople = () => {
           handleClickSaveButton={save}
           handleClickSaveAndBackButton={saveAndClose}
           handleClickDeleteButton={() => handleDelete(Number(id))}
-          handleClickNewButton={() => navigate('/pessoas/detalhe/nova')}
-          handleClickBackButton={() => navigate('/pessoas')}
+          handleClickNewButton={() => navigate('/cidades/detalhe/nova')}
+          handleClickBackButton={() => navigate('/cidades')}
         />
       }
     >
@@ -155,25 +144,14 @@ export const DetailsOfPeople = () => {
               <Grid item xs={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  label="Nome completo"
-                  name="nomeCompleto"
+                  label="Nome"
+                  name="nome"
                   disabled={isLoading}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
             </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} md={6} lg={4} xl={2}>
-                <VTextField fullWidth label="Email" name="email" disabled={isLoading} />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} md={6} lg={4} xl={2}>
-                <AutoCompleteCity isExternalLoading={isLoading} />
-              </Grid>
-            </Grid>
           </Grid>
         </Box>
       </VForm>

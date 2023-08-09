@@ -2,21 +2,21 @@
   "pessoas": [
     {
       "id": 1,
+      "nomeCompleto": "Giovane Santos",
       "email": "gio@gmail.com",
-      "cidadeId": 1,
-      "nomeCompleto": "Giovane Santos"
+      "cidadeId": 1
     },
     {
       "id": 3,
       "nomeCompleto": "Maria Silva",
       "email": "maria@gmail.com",
-      "cidadeId": 1
+      "cidadeId": 3
     },
     {
       "id": 4,
       "nomeCompleto": "Pedro Almeida",
       "email": "pedro@gmail.com",
-      "cidadeId": 1
+      "cidadeId": 4
     },
     {
       "id": 5,
@@ -74,9 +74,43 @@
     },
     {
       "id": 16,
-      "nomeCompleto": "José Maria",
-      "email": "jose@gmail",
-      "cidadeId": "5"
+      "nomeCompleto": "Geronimo",
+      "email": "geronimo@gmail.com",
+      "cidadeId": 5
+    }
+  ],
+  "cidades": [
+    {
+      "id": 1,
+      "nome": "Pilar do Sul"
+    },
+    {
+      "nome": "São Paulo",
+      "id": 2
+    },
+    {
+      "nome": "Sorocaba",
+      "id": 3
+    },
+    {
+      "nome": "Salto de pirapora",
+      "id": 4
+    },
+    {
+      "nome": "Piedade",
+      "id": 5
+    },
+    {
+      "nome": "Itu",
+      "id": 6
+    },
+    {
+      "nome": "Rio de Janeiro",
+      "id": 7
+    },
+    {
+      "nome": "Santa Catarina",
+      "id": 8
     }
   ]
 }
