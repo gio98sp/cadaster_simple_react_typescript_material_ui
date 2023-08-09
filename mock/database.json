@@ -14,9 +14,9 @@
     },
     {
       "id": 4,
+      "nomeCompleto": "Pedro Almeida",
       "email": "pedro@gmail.com",
-      "cidadeId": 1,
-      "nomeCompleto": "Pedro Almeida"
+      "cidadeId": 1
     },
     {
       "id": 5,

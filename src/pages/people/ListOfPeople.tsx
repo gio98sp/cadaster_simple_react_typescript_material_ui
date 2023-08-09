@@ -27,7 +27,7 @@ import {
 export const ListOfPeople = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [rows, setRows] = useState<IListagemPessoa[]>([]);
   const [totalCount, settotalCount] = useState(0);
@@ -63,7 +63,7 @@ export const ListOfPeople = () => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
-          setRows(oldRows => oldRows.filter(oldRow => oldRow.id !== id))
+          setRows((oldRows) => oldRows.filter((oldRow) => oldRow.id !== id));
         }
       });
     }

@@ -1,11 +1,10 @@
 import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as yup from 'yup';
 
 import { ToolbarDetails } from '../../shared/components';
-import { VTextField } from '../../shared/forms';
+import { IVFormErrors, VForm, VTextField, useVForm } from '../../shared/forms';
 import { LayoutBaseDePagina } from '../../shared/layouts/LayoutBaseDePagina';
 import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
 
@@ -15,12 +14,18 @@ interface IFormData {
   nomeCompleto: string;
 }
 
+const formValidationSchema: yup.ObjectSchema<IFormData> = yup.object().shape({
+  nomeCompleto: yup.string().required().min(3),
+  email: yup.string().required().min(3),
+  cidadeId: yup.number().required(),
+});
+
 export const DetailsOfPeople = () => {
   const { id = 'nova' } = useParams<'id'>();
 
   const navigate = useNavigate();
 
-  const formRef = useRef<FormHandles>(null);
+  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
 
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
@@ -38,30 +43,59 @@ export const DetailsOfPeople = () => {
           formRef.current?.setData(result);
         }
       });
+    } else {
+      formRef.current?.setData({
+        nomeCompleto: '',
+        email: '',
+        cidadeId: '',
+      });
     }
   }, [id]);
 
   const handleSave = (data: IFormData) => {
-    setIsLoading(true);
-    if (id === 'nova') {
-      PessoasService.create(data).then((result) => {
-        setIsLoading(false);
-        if (result instanceof Error) {
-          alert(result.message);
+    formValidationSchema
+      .validate(data, { abortEarly: false })
+      .then((validatedData) => {
+        setIsLoading(true);
+        if (id === 'nova') {
+          PessoasService.create(validatedData).then((result) => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (isSaveAndClose()) {
+                navigate('./pessoas');
+              } else {
+                navigate(`/pessoas/detalhe/${result}`);
+              }
+            }
+          });
         } else {
-          navigate(`/pessoas/detalhe/${result}`);
+          PessoasService.updateById(Number(id), {
+            id: Number(id),
+            ...validatedData,
+          }).then((result) => {
+            setIsLoading(false);
+            if (result instanceof Error) {
+              alert(result.message);
+            } else {
+              if (isSaveAndClose()) {
+                navigate('./pessoas');
+              }
+            }
+          });
         }
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validationErrors: IVFormErrors = {};
+
+        errors.inner.forEach((err) => {
+          if (!err.path) return;
+          validationErrors[err.path] = err.message;
+        });
+
+        formRef.current?.setErrors(validationErrors)
       });
-    } else {
-      PessoasService.updateById(Number(id), { id: Number(id), ...data }).then(
-        (result) => {
-          setIsLoading(false);
-          if (result instanceof Error) {
-            alert(result.message);
-          }
-        }
-      );
-    }
   };
 
   const handleDelete = (id: number) => {
@@ -85,15 +119,15 @@ export const DetailsOfPeople = () => {
           showSaveAndBackButton
           showDeleteButton={id !== 'nova'}
           showNewButton={id !== 'nova'}
-          handleClickSaveButton={() => formRef.current?.submitForm()}
-          handleClickSaveAndBackButton={() => formRef.current?.submitForm()}
+          handleClickSaveButton={save}
+          handleClickSaveAndBackButton={saveAndClose}
           handleClickDeleteButton={() => handleDelete(Number(id))}
           handleClickNewButton={() => navigate('/pessoas/detalhe/nova')}
           handleClickBackButton={() => navigate('/pessoas')}
         />
       }
     >
-      <Form ref={formRef} onSubmit={handleSave}>
+      <VForm ref={formRef} onSubmit={handleSave}>
         <Box
           margin={1}
           display={'flex'}
@@ -126,12 +160,7 @@ export const DetailsOfPeople = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  disabled={isLoading}
-                />
+                <VTextField fullWidth label="Email" name="email" disabled={isLoading} />
               </Grid>
             </Grid>
 
@@ -147,7 +176,7 @@ export const DetailsOfPeople = () => {
             </Grid>
           </Grid>
         </Box>
-      </Form>
+      </VForm>
     </LayoutBaseDePagina>
   );
 };
