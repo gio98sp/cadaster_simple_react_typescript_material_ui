@@ -37,7 +37,7 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <LayoutBaseDePagina title="Página inicial" toolbar={<Toolbar showNewButton />}>
+    <LayoutBaseDePagina title="Página inicial" toolbar={<Toolbar showNewButton={false} />}>
       <Box width={'100%'} display={'flex'}>
         <Grid container margin={1}>
           <Grid container item spacing={2}>

@@ -29,8 +29,8 @@ export const Login = ({ children }: ILoginProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('teste@teste.com');
+  const [password, setPassword] = useState('testeteste');
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -100,7 +100,11 @@ export const Login = ({ children }: ILoginProps) => {
               variant="contained"
               onClick={handleSubmit}
               disabled={isLoading}
-              endIcon={isLoading ? <CircularProgress size={20} variant='indeterminate' color='inherit' /> : undefined}
+              endIcon={
+                isLoading ? (
+                  <CircularProgress size={20} variant="indeterminate" color="inherit" />
+                ) : undefined
+              }
             >
               Entrar
             </Button>

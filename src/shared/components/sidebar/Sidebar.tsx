@@ -74,7 +74,6 @@ export const Sidebar = ({ children }: ISidebarProps) => {
           >
             <Avatar
               sx={{ height: theme.spacing(12), width: theme.spacing(12) }}
-              src="https://avatars.githubusercontent.com/u/100538460?v=4"
             />
           </Box>
 

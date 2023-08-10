@@ -1,7 +1,6 @@
 {
-  "name": "material_ui",
+  "name": "cadaster_people_cities",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
