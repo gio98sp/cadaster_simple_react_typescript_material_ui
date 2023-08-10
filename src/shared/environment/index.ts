@@ -19,5 +19,5 @@ export const Environment = {
   /**
    * Url base de consulta de dados dessa aplicação
    */
-  URL_BASE: 'https://json-server-for-cadaster-people-and.onrender.com'
+  URL_BASE: 'http://localhost:3333'
 }
