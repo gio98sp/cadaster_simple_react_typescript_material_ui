@@ -7,12 +7,12 @@ const router = jsonServer.router('mock/database.json');
 
 // server.use(middlewares);
 // Add this before server.use(router)
-server.use(
-  // Add custom route here if needed
-  jsonServer.rewriter({
-    '/*': '/$1',
-  })
-);
+// server.use(
+//   // Add custom route here if needed
+//   jsonServer.rewriter({
+//     '/*': '/$1',
+//   })
+// );
 server.use(router);
 server.listen(3333, () => {
   console.log('JSON Server is running');
