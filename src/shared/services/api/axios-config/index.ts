@@ -5,6 +5,9 @@ import { Environment } from '../../../environment';
 
 const Api = axios.create({
   baseURL: Environment.URL_BASE,
+  headers: {
+    'Content-type': 'application/json',
+  },
 });
 
 Api.interceptors.response.use(
