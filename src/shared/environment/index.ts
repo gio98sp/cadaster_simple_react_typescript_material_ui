@@ -19,5 +19,5 @@ export const Environment = {
   /**
    * Url base de consulta de dados dessa aplicação
    */
-  URL_BASE: 'https://cadaster-simple-react-typescript-material-ui.vercel.app'
+  URL_BASE: 'https://json-server-for-cadaster-people-and-cities.vercel.app/'
 }
