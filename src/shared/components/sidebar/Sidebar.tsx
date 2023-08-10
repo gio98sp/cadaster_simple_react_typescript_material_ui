@@ -1,3 +1,6 @@
+import React from 'react';
+import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Avatar,
   Box,
@@ -10,11 +13,8 @@ import {
   ListItemText,
   useTheme,
 } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React from 'react';
 
-import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
-import { useAppThemeContext, useDrawerContext } from '../../contexts';
+import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
 
 interface ISidebarProps {
   children: React.ReactNode;
@@ -55,6 +55,8 @@ export const Sidebar = ({ children }: ISidebarProps) => {
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
   const { toggleTheme } = useAppThemeContext();
 
+  const { logout } = useAuthContext();
+
   return (
     <>
       <Drawer
@@ -62,12 +64,7 @@ export const Sidebar = ({ children }: ISidebarProps) => {
         variant={smDown ? 'temporary' : 'permanent'}
         onClose={toggleDrawerOpen}
       >
-        <Box
-          width={theme.spacing(28)}
-          height="100%"
-          display="flex"
-          flexDirection="column"
-        >
+        <Box width={theme.spacing(28)} height="100%" display="flex" flexDirection="column">
           <Box
             width="100%"
             height={theme.spacing(20)}
@@ -85,7 +82,7 @@ export const Sidebar = ({ children }: ISidebarProps) => {
 
           <Box flex={1}>
             <List component="nav">
-              {drawerOptions.map(drawerOption => (
+              {drawerOptions.map((drawerOption) => (
                 <ListItemLink
                   label={drawerOption.label}
                   icon={drawerOption.icon}
@@ -103,7 +100,14 @@ export const Sidebar = ({ children }: ISidebarProps) => {
                 <ListItemIcon>
                   <Icon>dark_mode</Icon>
                 </ListItemIcon>
-                <ListItemText primary='Alternar Tema' />
+                <ListItemText primary="Alternar Tema" />
+              </ListItemButton>
+
+              <ListItemButton onClick={logout}>
+                <ListItemIcon>
+                  <Icon>logout</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Sair" />
               </ListItemButton>
             </List>
           </Box>

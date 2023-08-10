@@ -77,6 +77,12 @@
       "nomeCompleto": "Geronimo",
       "email": "geronimo@gmail.com",
       "cidadeId": 5
+    },
+    {
+      "nomeCompleto": "João Maria",
+      "email": "joaomaria@gmail.com",
+      "cidadeId": 4,
+      "id": 17
     }
   ],
   "cidades": [
@@ -112,5 +118,8 @@
       "nome": "Santa Catarina",
       "id": 8
     }
-  ]
+  ],
+  "auth": {
+    "accessToken": "aaaaa.bbbbb.ccccc"
+  }
 }
