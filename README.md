@@ -16,7 +16,7 @@ Iniciando com uma página simples de login inicial, após entrar contém uma pá
 
 - Login
 - Logout
-- Adiconar
+- Adicionar
 - Remover
 - Editar
 - Alternar Tema
@@ -35,7 +35,7 @@ Esse projeto foi inicializado com Create React App
 1. Primeiro clone o repositório em uma pasta executando o comando
 
 ```bash
-gh repo clone gio98sp/react_typescript_material_ui
+git clone https://github.com/gio98sp/cadaster-simple-react-typescript-material-ui.git
 ```
 
 2. No diretório do projeto, você pode executar o seguinte comando para instalar as dependências
