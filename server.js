@@ -3,9 +3,9 @@ import * as jsonServer from 'json-server'
 
 const server = jsonServer.create();
 const router = jsonServer.router('mock/database.json');
-// const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults();
 
-// server.use(middlewares);
+server.use(middlewares);
 // Add this before server.use(router)
 server.use(
   // Add custom route here if needed
