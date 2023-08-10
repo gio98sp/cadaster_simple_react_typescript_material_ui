@@ -10,7 +10,7 @@
 
 Iniciando com uma página simples de login inicial, após entrar contém uma página de Dashboard, mostrando o total de pessoas e cidades cadastradas, podendo adicionar, remover e editar.
 
-#### :link: [Acesse o projeto finalizado, aqui](https://gio98sp.github.io/devLinks/)
+#### :link: [Acesse o projeto finalizado, aqui](https://cadaster-simple-react-typescript-material-ui.vercel.app/)
 
 ## Características
 
